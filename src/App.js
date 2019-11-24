@@ -42,7 +42,6 @@ class App extends React.Component {
     };
 
     console.log("this.state.user: ", this.state.user);
-    console.log(this.state.user.attributes.authData.facebook.access_token);
   }
 
   link = () => {
