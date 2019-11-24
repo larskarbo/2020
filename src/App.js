@@ -4,7 +4,7 @@ import logo from "./logo.svg";
 import slogan from "./slogan.svg";
 import box from "./box.svg";
 import "./App.css";
-import { Grommet, Box, Button, Image, Text } from "grommet";
+import { Grommet, Box, Button, Image, Text, ResponsiveContext } from "grommet";
 import Img from "react-image";
 
 import Parse from "parse";
@@ -17,7 +17,41 @@ Parse.serverURL =
   "https://pg-app-dj9xy177hoalfp5edd2fe1zed7uspl.scalabl.cloud/1/";
 
 const myTheme = {
-  global: {}
+  global: {
+    breakpoints: {
+      "small": {
+        "value": 100,
+        "borderSize": {
+          "xsmall": "1px",
+          "small": "2px",
+          "medium": "4px",
+          "large": "6px",
+          "xlarge": "12px"
+        },
+        "edgeSize": {
+          "none": "0px",
+          "hair": "1px",
+          "xxsmall": "2px",
+          "xsmall": "3px",
+          "small": "6px",
+          "medium": "12px",
+          "large": "24px",
+          "xlarge": "48px"
+        },
+        "size": {
+          "xxsmall": "24px",
+          "xsmall": "48px",
+          "small": "96px",
+          "medium": "192px",
+          "large": "384px",
+          "xlarge": "768px",
+          "full": "100%"
+        }
+      },
+      "medium": {"value": 1536},
+      "large": {}
+    }
+  }
 };
 class App extends React.Component {
   constructor() {
@@ -28,7 +62,7 @@ class App extends React.Component {
       loading: false
     };
     window.fbAsyncInit = () => {
-      console.log('pre')
+      console.log("pre");
       Parse.FacebookUtils.init({
         appId: "2441755599420116", // Facebook App ID
         status: true, // check Facebook Login status
@@ -38,7 +72,7 @@ class App extends React.Component {
       });
       // Run code after the Facebook SDK is loaded.
       // ...
-      console.log('post')
+      console.log("post");
       this.setState({
         loading: true
       });
@@ -103,12 +137,18 @@ class App extends React.Component {
   };
 
   render() {
+    const imgX = {
+      style: {
+        width: "100%"
+        // height: "100%"
+      }
+    };
     const content = this.state.user ? (
       <LoggedIn />
     ) : (
       <>
         <Box pad="large">
-          <img src={slogan} />
+          <img {...imgX} src={slogan} />
         </Box>
         <Box
           margin={{
@@ -117,12 +157,13 @@ class App extends React.Component {
           onClick={this.login}
         >
           {this.state.loading ? (
-            <img
-              style={{
-                width: "100%"
-              }}
-              src={box}
-            />
+            <ResponsiveContext>
+              {size => (
+                <Box pad="medium">
+                  <img {...imgX} src={box} />
+                </Box>
+              )}
+            </ResponsiveContext>
           ) : (
             <Box>loading...</Box>
           )}
@@ -137,7 +178,9 @@ class App extends React.Component {
               maxWidth: "400px"
             }}
           >
-            <img src={logo} />
+            <Box pad="medium">
+              <img {...imgX} src={logo} />
+            </Box>
             {content}
             <Box pad="large">
               {" "}
