@@ -28,19 +28,33 @@ class App extends React.Component {
       loading: false
     };
     window.fbAsyncInit = () => {
+      console.log('pre')
       Parse.FacebookUtils.init({
         appId: "2441755599420116", // Facebook App ID
         status: true, // check Facebook Login status
         cookie: true, // enable cookies to allow Parse to access the session
         xfbml: true, // initialize Facebook social plugins on the page
-        version: "v2.3" // point to the latest Facebook Graph API version
+        version: "v5.0" // point to the latest Facebook Graph API version
       });
       // Run code after the Facebook SDK is loaded.
       // ...
+      console.log('post')
       this.setState({
         loading: true
       });
     };
+
+    (function(d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
 
     console.log("this.state.user: ", this.state.user);
   }
@@ -123,9 +137,12 @@ class App extends React.Component {
               maxWidth: "400px"
             }}
           >
-          <img src={logo} />
+            <img src={logo} />
             {content}
-            <Box pad="large"> <Text textAlign="center">124 people registered</Text></Box>
+            <Box pad="large">
+              {" "}
+              <Text textAlign="center">124 people registered</Text>
+            </Box>
           </Box>
         </Box>
       </Grommet>
