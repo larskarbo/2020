@@ -1,3 +1,4 @@
+import LoggedIn from "./LoggedIn";
 import React from "react";
 import logo from "./logo.svg";
 import slogan from "./slogan.svg";
@@ -88,6 +89,32 @@ class App extends React.Component {
   };
 
   render() {
+    const content = this.state.user ? (
+      <LoggedIn />
+    ) : (
+      <>
+        <Box pad="large">
+          <img src={slogan} />
+        </Box>
+        <Box
+          margin={{
+            vertical: "medium"
+          }}
+          onClick={this.login}
+        >
+          {this.state.loading ? (
+            <img
+              style={{
+                width: "100%"
+              }}
+              src={box}
+            />
+          ) : (
+            <Box>loading...</Box>
+          )}
+        </Box>
+      </>
+    );
     return (
       <Grommet full theme={myTheme}>
         <Box fill={true} background="black" align="center">
@@ -96,28 +123,10 @@ class App extends React.Component {
               maxWidth: "400px"
             }}
           >
-            <img src={logo} />
-            <Box pad="large">
-              <img src={slogan} />
-            </Box>
-            <Box
-              margin={{
-                vertical: "medium"
-              }}
-              onClick={this.login}
-            >
-              { this.state.loading ?
-              <img
-                style={{
-                  width: "100%"
-                }}
-                src={box}
-              />
-              : <Box>loading...</Box> }
-            </Box>
+          <img src={logo} />
+            {content}
+            <Box pad="large"> <Text textAlign="center">124 people registered</Text></Box>
           </Box>
-
-          <Box pad="large">124 people registered</Box>
         </Box>
       </Grommet>
     );
